@@ -1,0 +1,6 @@
+# Layer contributed when a profile lists this bundle: one row whose id matches
+# the package name, so the client module registry serves this package's
+# ./client bundle at /plugins/dsh-tick-rail/client.js.
+- insert:
+    - id: dsh-tick-rail
+      name: dsh-tick-rail

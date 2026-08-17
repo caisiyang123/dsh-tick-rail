@@ -1,0 +1,51 @@
+{
+  "name": "dsh-tick-rail",
+  "version": "0.1.0",
+  "description": "Tick-rail conversation navigator for the DeepSeek Harness web UI — a slim rail of tick marks beside the chat with a peak-falloff hover effect, message previews, and click-to-jump.",
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "dsh-plugin",
+    "navigation",
+    "minimap",
+    "web-ui"
+  ],
+  "type": "module",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/caisiyang123/dsh-tick-rail.git"
+  },
+  "homepage": "https://github.com/caisiyang123/dsh-tick-rail#readme",
+  "bugs": {
+    "url": "https://github.com/caisiyang123/dsh-tick-rail/issues"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "license": "MIT",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "*"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/cordis": {
+      "optional": true
+    }
+  }
+}
