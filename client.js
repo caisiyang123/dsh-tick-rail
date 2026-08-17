@@ -36,6 +36,7 @@ window.__ModuleLoader__.load({
       .dshTickRailHit{padding:2.5px 10px 2.5px 0;margin:-2.5px 0}
       .dshTickRailTick{height:2.5px;border-radius:2px;background:var(--dsw-alias-label-tertiary,var(--dsw-alias-label-secondary,#8a8a8a));transition:width .12s ease-out,opacity .12s ease-out,background .12s ease-out}
       .dshTickRailTickActive{background:var(--dsw-alias-label-primary,#1f1f1f)}
+      .dshTickRail:focus-visible{outline:1px solid var(--dsw-alias-border-l2,#bbb);outline-offset:4px;border-radius:6px}
       .dshTickRailPreview{position:fixed;z-index:61;width:${PREVIEW_WIDTH}px;box-sizing:border-box;pointer-events:none;background:var(--dsw-alias-bg-overlay,var(--dsw-alias-bg-layer-1,#fff));border:1px solid var(--dsw-alias-border-l2,#e2e2e2);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.12),0 2px 6px rgba(0,0,0,.08);padding:12px 14px}
       .dshTickRailPreviewTitle{font-size:13px;font-weight:600;line-height:20px;color:var(--dsw-alias-label-primary,#1f1f1f);margin:0 0 5px}
       .dshTickRailPreviewBody{font-size:13px;line-height:1.65;color:var(--dsw-alias-label-secondary,#5c5c5c);margin:0;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
@@ -130,6 +131,10 @@ window.__ModuleLoader__.load({
       const railRef = React.useRef(null)
       const snapshotRef = React.useRef(snapshot)
       snapshotRef.current = snapshot
+      const activeRef = React.useRef(active)
+      activeRef.current = active
+      const hoverRef = React.useRef(hover)
+      hoverRef.current = hover
 
       React.useEffect(() => {
         let disposed = false
@@ -230,26 +235,52 @@ window.__ModuleLoader__.load({
           return Math.max(0, Math.min(1, ratio)) * (count - 1)
         }
 
-        const onMove = (event) => {
-          setHover({ center: centerFromMouse(event.clientY), y: event.clientY })
-        }
-        const onLeave = () => setHover(null)
-        const onClick = (event) => {
+        const jumpTo = (index) => {
           const { scrollEl, items: list } = snapshotRef.current
-          const item = list[Math.round(centerFromMouse(event.clientY))]
+          const item = list[index]
           if (!item || !scrollEl) return
           const targetTop =
             item.el.getBoundingClientRect().top - scrollEl.getBoundingClientRect().top + scrollEl.scrollTop - 8
           smoothScrollTo(scrollEl, Math.max(0, targetTop))
         }
 
+        const onMove = (event) => {
+          setHover({ center: centerFromMouse(event.clientY), y: event.clientY })
+        }
+        const onLeave = () => setHover(null)
+        const onClick = (event) => {
+          jumpTo(Math.round(centerFromMouse(event.clientY)))
+        }
+        const onKey = (event) => {
+          const count = snapshotRef.current.items.length
+          if (!count) return
+          const current = hoverRef.current ? Math.round(hoverRef.current.center) : activeRef.current
+          if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+            event.preventDefault()
+            const next = Math.max(0, Math.min(count - 1, current + (event.key === 'ArrowDown' ? 1 : -1)))
+            const hit = rail.children[next]
+            const box = hit && hit.getBoundingClientRect()
+            setHover({ center: next, y: box ? box.top + box.height / 2 : 0 })
+          } else if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault()
+            jumpTo(current)
+          } else if (event.key === 'Escape') {
+            setHover(null)
+          }
+        }
+        const onBlur = () => setHover(null)
+
         rail.addEventListener('mousemove', onMove, { passive: true })
         rail.addEventListener('mouseleave', onLeave, { passive: true })
         rail.addEventListener('click', onClick)
+        rail.addEventListener('keydown', onKey)
+        rail.addEventListener('blur', onBlur)
         return () => {
           rail.removeEventListener('mousemove', onMove)
           rail.removeEventListener('mouseleave', onLeave)
           rail.removeEventListener('click', onClick)
+          rail.removeEventListener('keydown', onKey)
+          rail.removeEventListener('blur', onBlur)
           setHover(null)
         }
       }, [visible])
@@ -280,6 +311,7 @@ window.__ModuleLoader__.load({
               ref: railRef,
               className: 'dshTickRail',
               role: 'navigation',
+              tabIndex: 0,
               'aria-label': t('rail'),
               style: { left: `${rect.left + 8}px`, top: `${rect.top + 8}px`, height: `${rect.height - 16}px` }
             },
