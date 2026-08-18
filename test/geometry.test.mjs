@@ -9,14 +9,16 @@ const reactStub = {
   Fragment: {}
 }
 
+const loaded = []
+globalThis.window = {
+  __ModuleLoader__: { load: (spec) => loaded.push(spec) },
+  matchMedia: () => ({ matches: false })
+}
+await import(`${new URL('../client.js', import.meta.url).href}?geometry-test`)
+const geometry = loaded[0].factory(() => reactStub).geometry
+
 async function loadGeometry() {
-  const loaded = []
-  globalThis.window = {
-    __ModuleLoader__: { load: (spec) => loaded.push(spec) },
-    matchMedia: () => ({ matches: false })
-  }
-  await import(`${new URL('../client.js', import.meta.url).href}?geometry-test`)
-  return loaded[0].factory(() => reactStub).geometry
+  return geometry
 }
 
 test('resting widths alternate long and short', async () => {
