@@ -8,7 +8,7 @@ A tick-rail conversation navigator for the [DeepSeek Harness](https://github.com
 
 A slim rail of tick marks appears beside the conversation — one tick per message you sent (your prompts and steering notes; assistant replies are skipped), so the rail reads as an index of your questions.
 
-- **Peak-falloff highlight** — the lit tick is the longest and the surrounding ticks taper off evenly, forming a peak that follows your mouse as it moves along the rail. When the mouse leaves, the rail returns to its resting profile, where each tick's length scales with the size of the message.
+- **Peak-falloff highlight** — the lit tick is the longest and the surrounding ticks taper off evenly, forming a peak that follows your mouse as it moves along the rail. When the mouse leaves, the rail returns to its resting profile: an alternating long-short rhythm of ticks.
 - **Hover preview** — a floating card next to the rail shows a snippet of the message under the peak.
 - **Click to jump** — click anywhere on the rail to smooth-scroll the conversation to that message.
 - **Keyboard friendly** — the rail is focusable: arrow keys move the peak, Enter or Space jumps, Escape dismisses the preview.
@@ -16,7 +16,7 @@ A slim rail of tick marks appears beside the conversation — one tick per messa
 
 在会话旁边显示一列细小的刻度线——你发的每条消息一格(提问和补充指令;助手回复不占刻度),整条导航就是你的提问索引。
 
-- **峰值衰减高亮**:点亮位置的刻度最长,两侧刻度均匀递减,形成一座跟随鼠标移动的"山峰";鼠标移开后恢复静止形态——每格刻度的长度随消息长短起伏。
+- **峰值衰减高亮**:点亮位置的刻度最长,两侧刻度均匀递减,形成一座跟随鼠标移动的"山峰";鼠标移开后恢复静止形态——长短交替、富有节奏感的刻度列。
 - **悬停预览**:刻度旁弹出浮层卡片,显示峰顶对应消息的摘要。
 - **点击跳转**:点击刻度区任意位置,会话平滑滚动到对应消息。
 - **键盘可用**:导航条可聚焦,方向键移动峰值,Enter/空格跳转,Esc 收起预览。

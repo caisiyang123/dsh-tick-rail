@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3
+
+- Resting tick lengths alternate long/short purely for looks, recreating the rail's original rhythm; the message-length scaling from 0.1.2 is gone.
+
 ## 0.1.2
 
 - At rest the rail returns fully to its resting profile when the mouse leaves; the peak no longer parks on the reading position.
