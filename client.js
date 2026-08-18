@@ -24,7 +24,7 @@ window.__ModuleLoader__.load({
     // rail reads as an index of your questions.
     const SHOWN_KINDS = { user: 'user', steering: 'steering' }
     const MIN_TICKS = 3
-    const BASE_WIDTH = 12
+    const BASE_WIDTH = 9
     const PEAK = 16
     const RADIUS = 4.2
     const RAIL_WIDTH = 44
@@ -72,7 +72,10 @@ window.__ModuleLoader__.load({
           el,
           kind,
           key: el.getAttribute('data-chat-flow-key') || `i${items.length}`,
-          text: text.slice(0, PREVIEW_CHARS + 40)
+          text: text.slice(0, PREVIEW_CHARS + 40),
+          // Resting length scales with message size, giving the rail its
+          // rippled profile: longer prompts read as longer ticks.
+          baseWidth: BASE_WIDTH + Math.min(10, Math.round(Math.sqrt(text.length) / 3))
         })
       }
       return { scrollEl, items }
@@ -288,18 +291,22 @@ window.__ModuleLoader__.load({
 
       const children = []
       if (visible) {
-        const center = hover ? hover.center : active
+        // The peak only exists while the pointer (or keyboard focus) is on the
+        // rail; at rest every tick returns to its own message-scaled length.
+        const hoverCenter = hover ? hover.center : null
         const ticks = items.map((item, i) => {
-          const distance = Math.abs(i - center)
-          const boost = Math.max(0, 1 - distance / RADIUS)
-          const width = BASE_WIDTH + PEAK * boost
-          const isPeak = distance < 0.5
+          const boost = hoverCenter === null ? 0 : Math.max(0, 1 - Math.abs(i - hoverCenter) / RADIUS)
+          const width = item.baseWidth + PEAK * boost
+          const isPeak = hoverCenter !== null && Math.abs(i - hoverCenter) < 0.5
           return React.createElement(
             'div',
             { key: item.key, className: 'dshTickRailHit' },
             React.createElement('div', {
               className: isPeak ? 'dshTickRailTick dshTickRailTickActive' : 'dshTickRailTick',
-              style: { width: `${width}px`, opacity: (0.45 + 0.55 * boost).toFixed(2) }
+              style: {
+                width: `${width}px`,
+                opacity: hoverCenter === null ? '0.6' : (0.45 + 0.55 * boost).toFixed(2)
+              }
             })
           )
         })
