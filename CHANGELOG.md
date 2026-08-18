@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1
+
+- The rail now shows only your own messages (prompts and steering notes); assistant replies no longer get ticks, so the rail reads as an index of your questions.
+- Unified tick length (the long/short role distinction is gone with assistant ticks).
+- Auto-hide threshold lowered from 5 to 3 ticks to match the lower tick count.
+
 ## 0.1.0
 
 Initial release.

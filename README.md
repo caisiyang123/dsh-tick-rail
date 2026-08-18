@@ -6,21 +6,21 @@ A tick-rail conversation navigator for the [DeepSeek Harness](https://github.com
 
 ## What it does · 功能
 
-A slim rail of tick marks appears beside the conversation — one tick per message (long ticks for your messages, short ticks for assistant replies), so the rhythm of the whole conversation is visible at a glance.
+A slim rail of tick marks appears beside the conversation — one tick per message you sent (your prompts and steering notes; assistant replies are skipped), so the rail reads as an index of your questions.
 
 - **Peak-falloff highlight** — the lit tick is the longest and the surrounding ticks taper off evenly, forming a peak that follows your mouse as it moves along the rail. When the mouse leaves, the peak settles on your current reading position and tracks it while you scroll.
 - **Hover preview** — a floating card next to the rail shows a snippet of the message under the peak.
 - **Click to jump** — click anywhere on the rail to smooth-scroll the conversation to that message.
 - **Keyboard friendly** — the rail is focusable: arrow keys move the peak, Enter or Space jumps, Escape dismisses the preview.
-- The rail hides itself in short conversations (fewer than 5 messages) and renders nothing when no conversation is open.
+- The rail hides itself in short conversations (fewer than 3 of your messages) and renders nothing when no conversation is open.
 
-在会话旁边显示一列细小的刻度线——每条消息一格(你的消息是长刻度,助手回复是短刻度),一眼看清整段对话的问答节奏。
+在会话旁边显示一列细小的刻度线——你发的每条消息一格(提问和补充指令;助手回复不占刻度),整条导航就是你的提问索引。
 
 - **峰值衰减高亮**:点亮位置的刻度最长,两侧刻度均匀递减,形成一座跟随鼠标移动的"山峰";鼠标移开后,峰顶回落到当前阅读位置,并随滚动同步。
 - **悬停预览**:刻度旁弹出浮层卡片,显示峰顶对应消息的摘要。
 - **点击跳转**:点击刻度区任意位置,会话平滑滚动到对应消息。
 - **键盘可用**:导航条可聚焦,方向键移动峰值,Enter/空格跳转,Esc 收起预览。
-- 少于 5 条消息时自动隐藏;没有打开会话时不渲染任何内容。
+- 你的消息少于 3 条时自动隐藏;没有打开会话时不渲染任何内容。
 
 ## Install · 安装
 

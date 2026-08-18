@@ -20,10 +20,11 @@ window.__ModuleLoader__.load({
       rail: '会话刻度导航'
     }
 
-    const SHOWN_KINDS = { user: 'user', steering: 'steering', 'assistant-step': 'assistant' }
-    const MIN_TICKS = 5
-    const BASE_WIDTH = 9
-    const USER_EXTRA = 5
+    // Only the user's own turns get ticks; assistant output is skipped so the
+    // rail reads as an index of your questions.
+    const SHOWN_KINDS = { user: 'user', steering: 'steering' }
+    const MIN_TICKS = 3
+    const BASE_WIDTH = 12
     const PEAK = 16
     const RADIUS = 4.2
     const RAIL_WIDTH = 44
@@ -291,7 +292,7 @@ window.__ModuleLoader__.load({
         const ticks = items.map((item, i) => {
           const distance = Math.abs(i - center)
           const boost = Math.max(0, 1 - distance / RADIUS)
-          const width = BASE_WIDTH + (item.kind === 'user' ? USER_EXTRA : 0) + PEAK * boost
+          const width = BASE_WIDTH + PEAK * boost
           const isPeak = distance < 0.5
           return React.createElement(
             'div',
