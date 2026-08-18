@@ -24,13 +24,26 @@ A slim rail of tick marks appears beside the conversation — one tick per messa
 
 ## Install · 安装
 
+Download the `.tgz` from the [latest release](https://github.com/caisiyang123/dsh-tick-rail/releases/latest), then:
+
+从 [最新 Release](https://github.com/caisiyang123/dsh-tick-rail/releases/latest) 下载 `.tgz`,然后:
+
 ```sh
-dsh plugin add github:caisiyang123/dsh-tick-rail
+dsh plugin add ./dsh-tick-rail-<version>.tgz
 ```
 
-Then restart `dsh web`. Works in the browser UI and inside DSH Desktop. The package is plain JavaScript with no build step, so the GitHub install needs no build authorization.
+Then restart `dsh web`. Works in the browser UI and inside DSH Desktop.
 
-安装后重启 `dsh web` 生效,浏览器界面和 DSH Desktop 内均可使用。包为纯 JavaScript、无构建步骤,从 GitHub 安装无需构建授权。
+安装后重启 `dsh web` 生效,浏览器界面和 DSH Desktop 内均可使用。
+
+<details>
+<summary>Installing straight from GitHub · 直接从 GitHub 安装</summary>
+
+`dsh plugin add github:caisiyang123/dsh-tick-rail` also works, but pnpm gates every git-hosted dependency behind build authorization even though this package has no build step. If the install stops with an `allowBuilds` error, add the exact key pnpm printed to `pnpm-workspace.yaml` in your profile directory, then re-run the command.
+
+`dsh plugin add github:caisiyang123/dsh-tick-rail` 也可以用,但 pnpm 会对一切 git 来源的依赖要求构建授权(即使本包并无构建步骤)。如果安装因 `allowBuilds` 报错中断,把 pnpm 输出中给出的键加进 profile 目录的 `pnpm-workspace.yaml`,再重跑一次即可。
+
+</details>
 
 ## How it works · 实现说明
 
