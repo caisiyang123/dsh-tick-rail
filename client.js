@@ -8,15 +8,9 @@ window.__ModuleLoader__.load({
 
     const NS = 'tickRail'
     const en = {
-      user: 'You',
-      steering: 'Steering note',
-      assistant: 'Assistant',
       rail: 'Conversation tick rail'
     }
     const zh = {
-      user: '你',
-      steering: '补充指令',
-      assistant: '助手回复',
       rail: '会话刻度导航'
     }
 
@@ -350,7 +344,8 @@ window.__ModuleLoader__.load({
         )
 
         if (hover) {
-          const item = items[Math.min(items.length - 1, Math.max(0, Math.round(hover.center)))]
+          const previewIndex = Math.min(items.length - 1, Math.max(0, Math.round(hover.center)))
+          const item = items[previewIndex]
           if (item) {
             const top = Math.max(8, Math.min(hover.y - 24, window.innerHeight - 140))
             children.push(
@@ -361,7 +356,7 @@ window.__ModuleLoader__.load({
                   className: 'dshTickRailPreview',
                   style: { left: `${rect.left + 8 + RAIL_WIDTH + 6}px`, top: `${top}px` }
                 },
-                React.createElement('p', { className: 'dshTickRailPreviewTitle' }, t(item.kind)),
+                React.createElement('p', { className: 'dshTickRailPreviewTitle' }, `Query ${previewIndex + 1}`),
                 React.createElement('p', { className: 'dshTickRailPreviewBody' }, item.text.slice(0, PREVIEW_CHARS))
               )
             )

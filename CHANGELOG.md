@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.5
+
+- Hover preview titles now read "Query 1", "Query 2", … by position instead of a role label, matching how the rail indexes your prompts.
+
 ## 0.1.4
 
 - Fixed doubled rails inside DSH Desktop: recent Desktop builds ship their own query rail in the same left-edge spot, so both stacks of ticks showed at once. While this rail is visible it now sets a flag that hides the native one; uninstalling the plugin brings the native rail back.
