@@ -56,6 +56,20 @@ window.__ModuleLoader__.load({
       document.head.appendChild(style)
     }
 
+    // Peak geometry, kept pure so tests can pin the rail's visual math.
+    function falloffBoost(distance, radius = RADIUS) {
+      return Math.max(0, 1 - distance / radius)
+    }
+
+    function restingWidth(index) {
+      return index % 2 === 0 ? BASE_LONG : BASE_SHORT
+    }
+
+    function tickWidth(index, center) {
+      const boost = center === null ? 0 : falloffBoost(Math.abs(index - center))
+      return restingWidth(index) + PEAK * boost
+    }
+
     function insideOwnUi(node) {
       const el = node instanceof Element ? node : node && node.parentElement
       return Boolean(el && typeof el.closest === 'function' && el.closest(`[${OWN_ATTRIBUTE}]`))
@@ -295,8 +309,7 @@ window.__ModuleLoader__.load({
         // rail; at rest every tick returns to its own message-scaled length.
         const hoverCenter = hover ? hover.center : null
         const ticks = items.map((item, i) => {
-          const boost = hoverCenter === null ? 0 : Math.max(0, 1 - Math.abs(i - hoverCenter) / RADIUS)
-          const width = (i % 2 === 0 ? BASE_LONG : BASE_SHORT) + PEAK * boost
+          const boost = hoverCenter === null ? 0 : falloffBoost(Math.abs(i - hoverCenter))
           const isPeak = hoverCenter !== null && Math.abs(i - hoverCenter) < 0.5
           return React.createElement(
             'div',
@@ -304,7 +317,7 @@ window.__ModuleLoader__.load({
             React.createElement('div', {
               className: isPeak ? 'dshTickRailTick dshTickRailTickActive' : 'dshTickRailTick',
               style: {
-                width: `${width}px`,
+                width: `${tickWidth(i, hoverCenter)}px`,
                 opacity: hoverCenter === null ? '0.6' : (0.45 + 0.55 * boost).toFixed(2)
               }
             })
@@ -370,6 +383,7 @@ window.__ModuleLoader__.load({
 
     exports.apply = apply
     exports.inject = inject
+    exports.geometry = { falloffBoost, restingWidth, tickWidth, PEAK, RADIUS, BASE_LONG, BASE_SHORT }
     return module.exports
   }
 })
