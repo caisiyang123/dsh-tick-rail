@@ -41,6 +41,7 @@ window.__ModuleLoader__.load({
       .dshTickRailTick{height:2.5px;border-radius:2px;background:var(--dsw-alias-label-tertiary,var(--dsw-alias-label-secondary,#8a8a8a));transition:width .12s ease-out,opacity .12s ease-out,background .12s ease-out}
       .dshTickRailTickActive{background:var(--dsw-alias-label-primary,#1f1f1f)}
       .dshTickRail:focus-visible{outline:1px solid var(--dsw-alias-border-l2,#bbb);outline-offset:4px;border-radius:6px}
+      html[data-dsh-tick-rail-active] [class*="dshQueryRail_scroller"]{display:none !important}
       .dshTickRailPreview{position:fixed;z-index:61;width:${PREVIEW_WIDTH}px;box-sizing:border-box;pointer-events:none;background:var(--dsw-alias-bg-overlay,var(--dsw-alias-bg-layer-1,#fff));border:1px solid var(--dsw-alias-border-l2,#e2e2e2);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.12),0 2px 6px rgba(0,0,0,.08);padding:12px 14px}
       .dshTickRailPreviewTitle{font-size:13px;font-weight:600;line-height:20px;color:var(--dsw-alias-label-primary,#1f1f1f);margin:0 0 5px}
       .dshTickRailPreviewBody{font-size:13px;line-height:1.65;color:var(--dsw-alias-label-secondary,#5c5c5c);margin:0;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
@@ -232,6 +233,14 @@ window.__ModuleLoader__.load({
 
       const items = snapshot.items
       const visible = Boolean(rect) && items.length >= MIN_TICKS
+
+      // DSH Desktop ships its own query rail in the same spot; while this
+      // rail is visible the flag hides the native one so they never stack.
+      React.useEffect(() => {
+        if (!visible) return undefined
+        document.documentElement.setAttribute('data-dsh-tick-rail-active', '')
+        return () => document.documentElement.removeAttribute('data-dsh-tick-rail-active')
+      }, [visible])
 
       // Native listeners instead of React synthetic handlers: the rail lives in
       // the shell overlay layer, where the host's delegated click events proved

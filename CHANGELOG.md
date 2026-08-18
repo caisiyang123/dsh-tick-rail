@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.4
+
+- Fixed doubled rails inside DSH Desktop: recent Desktop builds ship their own query rail in the same left-edge spot, so both stacks of ticks showed at once. While this rail is visible it now sets a flag that hides the native one; uninstalling the plugin brings the native rail back.
+
 ## 0.1.3
 
 - Resting tick lengths alternate long/short purely for looks, recreating the rail's original rhythm; the message-length scaling from 0.1.2 is gone.
